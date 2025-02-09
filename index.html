@@ -3,33 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather App</title>
+  <title>Futuristic Weather App</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.4.0/dist/full.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="style.css">
+  <!-- DaisyUI CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.1/dist/full.css" rel="stylesheet" type="text/css" />
+  <style>
+    /* Custom Glassmorphism Effect */
+    .glass {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-[#0F172A] text-[#E2E8F0] font-sans min-h-screen flex items-center justify-center">
 
-  <!-- App Container -->
-  <div class="container mx-auto py-10">
-    <h1 class="text-4xl font-bold text-center mb-6">Weather App</h1>
+  <!-- Main Container -->
+  <div class="container mx-auto p-6 max-w-3xl glass rounded-3xl shadow-lg">
+    <h1 class="text-3xl font-bold text-center mb-6 text-[#0EA5E9]">Futuristic Weather App</h1>
 
-    <!-- Search Form -->
-    <div class="flex justify-center mb-6">
-      <input id="cityInput" type="text" placeholder="Enter city name" class="input input-bordered w-full max-w-lg" />
-      <button id="searchButton" class="btn btn-primary ml-4">Search</button>
+    <!-- Search Bar -->
+    <div class="flex justify-center mb-8">
+      <input id="cityInput" type="text" placeholder="Enter city name..." 
+        class="input input-bordered w-full max-w-md bg-[#1E293B] text-[#E2E8F0] focus:outline-none focus:border-[#0EA5E9]">
+      <button id="searchBtn" class="btn btn-primary ml-4 bg-[#0EA5E9] hover:bg-[#0c8fd9]">Search</button>
     </div>
 
     <!-- Weather Display -->
-    <div id="weatherDisplay" class="max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg hidden">
-      <h2 id="cityName" class="text-2xl font-bold"></h2>
-      <p id="weatherDescription" class="text-lg"></p>
-      <p id="temperature" class="text-4xl font-bold my-4"></p>
-      <p id="humidity" class="text-md"></p>
-      <p id="windSpeed" class="text-md"></p>
+    <div id="weatherDisplay" class="hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Left Section -->
+        <div class="p-6 glass rounded-2xl">
+          <h2 class="text-xl font-semibold text-[#0EA5E9]">Current Weather</h2>
+          <p class="text-5xl font-bold mt-4" id="temperature">--°C</p>
+          <p class="text-lg mt-2" id="condition">---</p>
+          <p class="text-sm mt-2 text-[#E2E8F0] opacity-70" id="location">---</p>
+        </div>
+
+        <!-- Right Section -->
+        <div class="p-6 glass rounded-2xl">
+          <h2 class="text-xl font-semibold text-[#0EA5E9]">Forecast</h2>
+          <div id="forecast" class="mt-4 space-y-4">
+            <!-- Forecast Cards will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="hidden text-center text-red-500 mt-6">City not found. Please try again.</div>
   </div>
 
+  <!-- JavaScript File -->
   <script src="script.js"></script>
 </body>
 </html>

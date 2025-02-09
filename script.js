@@ -1,53 +1,62 @@
-// Get DOM elements
+// JavaScript for Weather API Integration
+const apiKey = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
 const cityInput = document.getElementById('cityInput');
-const searchButton = document.getElementById('searchButton');
+const searchBtn = document.getElementById('searchBtn');
 const weatherDisplay = document.getElementById('weatherDisplay');
-const cityName = document.getElementById('cityName');
-const weatherDescription = document.getElementById('weatherDescription');
+const errorMessage = document.getElementById('errorMessage');
 const temperature = document.getElementById('temperature');
-const humidity = document.getElementById('humidity');
-const windSpeed = document.getElementById('windSpeed');
+const condition = document.getElementById('condition');
+const location = document.getElementById('location');
+const forecastContainer = document.getElementById('forecast');
 
-// OpenWeatherMap API Key (Replace with your own)
-const apiKey = "YOUR_API_KEY";
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather";
-
-// Function to fetch weather data
-async function fetchWeather(city) {
-  try {
-    const response = await fetch(`${apiUrl}?q=${city}&appid=${apiKey}&units=metric`);
-    if (!response.ok) throw new Error("City not found");
-    const data = await response.json();
-    displayWeather(data);
-  } catch (error) {
-    alert(error.message);
-  }
-}
-
-// Function to display weather data
-function displayWeather(data) {
-  cityName.textContent = `${data.name}, ${data.sys.country}`;
-  weatherDescription.textContent = data.weather[0].description;
-  temperature.textContent = `${data.main.temp}°C`;
-  humidity.textContent = `Humidity: ${data.main.humidity}%`;
-  windSpeed.textContent = `Wind Speed: ${data.wind.speed} m/s`;
-
-  weatherDisplay.classList.remove('hidden');
-}
-
-// Event listener for search button
-searchButton.addEventListener('click', () => {
+searchBtn.addEventListener('click', () => {
   const city = cityInput.value.trim();
   if (city) {
     fetchWeather(city);
-  } else {
-    alert("Please enter a city name");
   }
 });
 
-// Enable Enter key for search
-cityInput.addEventListener('keypress', (event) => {
-  if (event.key === "Enter") {
-    searchButton.click();
+async function fetchWeather(city) {
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`);
+    if (!response.ok) throw new Error('City not found');
+    const data = await response.json();
+
+    // Update UI with current weather
+    temperature.textContent = `${Math.round(data.main.temp)}°C`;
+    condition.textContent = data.weather[0].description;
+    location.textContent = `${data.name}, ${data.sys.country}`;
+    weatherDisplay.classList.remove('hidden');
+    errorMessage.classList.add('hidden');
+
+    // Fetch forecast
+    const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`);
+    const forecastData = await forecastResponse.json();
+    updateForecast(forecastData.list);
+  } catch (error) {
+    weatherDisplay.classList.add('hidden');
+    errorMessage.classList.remove('hidden');
   }
-});
+}
+
+function updateForecast(forecastList) {
+  forecastContainer.innerHTML = '';
+  const uniqueForecasts = forecastList.filter((item, index) => index % 8 === 0); // Get one forecast per day
+
+  uniqueForecasts.forEach(item => {
+    const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' });
+    const temp = Math.round(item.main.temp);
+    const icon = item.weather[0].icon;
+
+    const card = `
+      <div class="flex items-center justify-between p-4 glass rounded-lg">
+        <div>
+          <p class="text-sm text-[#E2E8F0]">${date}</p>
+          <p class="text-lg font-semibold">${temp}°C</p>
+        </div>
+        <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="Weather Icon" class="w-10 h-10">
+      </div>
+    `;
+    forecastContainer.insertAdjacentHTML('beforeend', card);
+  });
+}
