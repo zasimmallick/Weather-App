@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Futuristic Weather App</title>
+  <title>Weather App</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- DaisyUI CDN -->
@@ -11,23 +11,30 @@
   <style>
     /* Custom Glassmorphism Effect */
     .glass {
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(145deg, rgba(15,23,42,0.7) 0%, rgba(9,14,28,0.7) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    }
+    
+    .weather-bg {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
     }
   </style>
 </head>
-<body class="bg-[#0F172A] text-[#E2E8F0] font-sans min-h-screen flex items-center justify-center">
+<body class="weather-bg text-[#E2E8F0] font-sans min-h-screen flex items-center justify-center transition-colors duration-500">
 
   <!-- Main Container -->
   <div class="container mx-auto p-6 max-w-3xl glass rounded-3xl shadow-lg">
     <h1 class="text-3xl font-bold text-center mb-6 text-[#0EA5E9]">Futuristic Weather App</h1>
 
-    <!-- Search Bar -->
-    <div class="flex justify-center mb-8">
-      <input id="cityInput" type="text" placeholder="Enter city name..." 
-        class="input input-bordered w-full max-w-md bg-[#1E293B] text-[#E2E8F0] focus:outline-none focus:border-[#0EA5E9]">
-      <button id="searchBtn" class="btn btn-primary ml-4 bg-[#0EA5E9] hover:bg-[#0c8fd9]">Search</button>
+    <!-- Updated Search Bar -->
+    <div class="flex justify-center mb-8 space-x-4">
+      <input id="cityInput" type="text" placeholder="🌍 Enter city name..." 
+        class="input input-lg w-full max-w-md bg-[#1E293B]/50 border-2 border-[#334155] focus:border-[#0EA5E9] focus:ring-2 focus:ring-[#0EA5E9]/20 placeholder-[#64748B] transition-all">
+      <button id="searchBtn" class="btn btn-lg bg-gradient-to-r from-[#0EA5E9] to-[#6366F1] hover:from-[#0c8fd9] hover:to-[#4F46E5] border-none text-white shadow-lg hover:shadow-[#0EA5E9]/20">
+        🔍 Search
+      </button>
     </div>
 
     <!-- Weather Display -->

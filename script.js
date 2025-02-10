@@ -60,3 +60,22 @@ function updateForecast(forecastList) {
     forecastContainer.insertAdjacentHTML('beforeend', card);
   });
 }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); opacity: 0.8; }
+  50% { transform: translateY(-20px) translateX(10px); opacity: 1; }
+  100% { transform: translateY(0) translateX(0); opacity: 0.8; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-float {
+  animation: float 6s infinite ease-in-out;
+}
